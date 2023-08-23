@@ -1,7 +1,11 @@
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 function App() {
   return (
-    <h1>React App</h1>
+    <Box>
+      <Button variant="contained">Hello world</Button>
+    </Box>
   );
 }
 
