@@ -10,16 +10,33 @@ import List from "@mui/material/List";
 import ListItem from "./components/ListItem";
 
 function App() {
-  const contacts = [{ Name: "John Doe" }, { Name: "Jane Doe" }, { Name: "John Doe La Cruz" }];
+  const contacts = [
+    { Name: "Alex Doe" },
+    { Name: "Bryan Doe" },
+    { Name: "Carlos Doe" },
+    { Name: "John Doe La Cruz" },
+  ];
+  const [contactList, setSearchList] = React.useState(contacts);
+
+  const handleSearch = (value) => {
+    let contactList = contacts.filter((e) => e.Name.toUpperCase().includes(value.toUpperCase()));
+    setSearchList(contactList);
+  };
 
   return (
     <Container>
       <Paper elevation={10} sx={{ p: 3, mt: 3 }}>
         <Box sx={{ mx: "auto" }}>
           <h3>Contact Management</h3>
-          <TextField id="outlined-basic" label="Search" variant="outlined" sx={{ width: "100%" }} />
+          <TextField
+            id="outlined-basic"
+            label="Search"
+            variant="outlined"
+            sx={{ width: "100%" }}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-            {contacts.map((object) => (
+            {contactList.map((object) => (
               <ListItem contact={object} />
             ))}
           </List>
