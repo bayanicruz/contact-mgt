@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 
 import ListItem from "./components/ListItem";
+import BottomDrawer from "./components/BottomDrawer"
 
 function App() {
   const contacts = [
@@ -28,6 +29,7 @@ function App() {
       <Paper elevation={10} sx={{ p: 3, mt: 3 }}>
         <Box sx={{ mx: "auto" }}>
           <h3>Contact Management</h3>
+          <BottomDrawer />
           <TextField
             id="outlined-basic"
             label="Search"
