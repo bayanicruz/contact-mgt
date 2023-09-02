@@ -3,6 +3,7 @@ import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Grid from '@mui/material/Grid';
 
 import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
@@ -28,8 +29,16 @@ function App() {
     <Container>
       <Paper elevation={10} sx={{ p: 3, mt: 3 }}>
         <Box sx={{ mx: "auto" }}>
-          <h3>Contact Management</h3>
-          <BottomDrawer />
+          <Grid container spacing={1}>
+            <Grid item xs={9}>
+            <h3>Contact Management</h3>
+            </Grid>
+            <Grid item xs={3}>
+            <BottomDrawer />
+            </Grid>
+          </Grid>
+          
+          
           <TextField
             id="outlined-basic"
             label="Search"
