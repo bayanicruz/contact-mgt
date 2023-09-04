@@ -3,13 +3,13 @@ import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 
 import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 
 import ListItem from "./components/ListItem";
-import BottomDrawer from "./components/BottomDrawer"
+import BottomDrawer from "./components/BottomDrawer";
 
 function App() {
   const contacts = [
@@ -21,8 +21,14 @@ function App() {
   const [contactList, setSearchList] = React.useState(contacts);
 
   const handleSearch = (value) => {
-    let contactList = contacts.filter((e) => e.Name.toUpperCase().includes(value.toUpperCase()));
+    let contactList = contacts.filter((e) =>
+      e.Name.toUpperCase().includes(value.toUpperCase()),
+    );
     setSearchList(contactList);
+  };
+
+  const handleAddContact = (value) => {
+    setSearchList([...contactList, { Name: value }]);
   };
 
   return (
@@ -31,14 +37,13 @@ function App() {
         <Box sx={{ mx: "auto" }}>
           <Grid container spacing={1}>
             <Grid item xs={9}>
-            <h3>Contact Management</h3>
+              <h3>Contact Management</h3>
             </Grid>
             <Grid item xs={3}>
-            <BottomDrawer />
+              <BottomDrawer createContact={handleAddContact} />
             </Grid>
           </Grid>
-          
-          
+
           <TextField
             id="outlined-basic"
             label="Search"
