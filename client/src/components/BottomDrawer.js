@@ -27,11 +27,6 @@ export default function BottomDrawer({ createContact }) {
     setState(open);
   };
 
-  const handleAddContact = (value) => {
-    createContact(value);
-    setState(false);
-  };
-
   const list = () => (
     <Box sx={{ width: "auto", height: 850 }} role="presentation">
       <Grid container>
@@ -51,7 +46,10 @@ export default function BottomDrawer({ createContact }) {
         </Grid>
         <Grid item xs={4}>
           <Box sx={{ float: "right" }}>
-            <Button variant="text" onClick={() => handleAddContact(name)}>
+            <Button variant="text" onClick={(e) => {
+              createContact(name)
+              toggleDrawer(false)(e)
+            }}>
               Add
             </Button>
           </Box>
