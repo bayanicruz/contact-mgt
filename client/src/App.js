@@ -12,13 +12,23 @@ import ListItem from "./components/ListItem";
 import BottomDrawer from "./components/BottomDrawer";
 
 function App() {
-  const contacts = [
-    { Name: "Alex Doe" },
-    { Name: "Bryan Doe" },
-    { Name: "Carlos Doe" },
-    { Name: "John Doe La Cruz" },
-  ];
+  const [contacts, setContacts] = React.useState([]);
   const [contactList, setSearchList] = React.useState(contacts);
+
+  React.useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/contacts');
+      const data = await response.json();
+      setContacts(data);
+      setSearchList(data);
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+    }
+  };
 
   const handleSearch = (value) => {
     let contactList = contacts.filter((e) =>
@@ -52,8 +62,8 @@ function App() {
             onChange={(e) => handleSearch(e.target.value)}
           />
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-            {contactList.map((object) => (
-              <ListItem contact={object} />
+          {contactList.map((contact) => (
+              <ListItem key={contact._id} contact={contact} />
             ))}
           </List>
         </Box>

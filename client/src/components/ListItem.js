@@ -17,14 +17,14 @@ const ListItem = ({ contact }) => {
   return (
     <Box>
       <ListItemButton onClick={handleClick}>
-        <ListItemText primary={contact.Name} />
+        <ListItemText primary={contact.name} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemText sx={{ pl: 4 }} primary="+61XXXXXXXXX" />
-          <ListItemText sx={{ pl: 4 }} primary="username@domain.io" />
-          <ListItemText sx={{ pl: 4 }} primary="1st January 1900" />
+          <ListItemText sx={{ pl: 4 }} primary={contact.phone || 'No phone'} />
+          <ListItemText sx={{ pl: 4 }} primary={contact.email} />
+          <ListItemText sx={{ pl: 4 }} primary={new Date(contact.dateOfBirth).toLocaleDateString()} />
         </List>
       </Collapse>
     </Box>
