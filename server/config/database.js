@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("dotenv").config({path: './config/.env'});
+require("dotenv").config(); //root /server directory
 
 const connectDatabase = async () => {
   const mongoUrl = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`;
@@ -7,12 +7,7 @@ const connectDatabase = async () => {
   await mongoose
     .connect(mongoUrl)
     .then(() => console.log(`Connected to MongoDB`))
-    .catch((err) =>
-      console.error(
-        "Error connecting to MongoDB:",
-        err.message,
-      ),
-    );
+    .catch((err) => console.error("Error connecting to MongoDB:", err.message));
 };
 
 module.exports = connectDatabase;
