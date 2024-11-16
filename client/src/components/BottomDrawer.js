@@ -11,10 +11,19 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 export default function BottomDrawer({ createContact }) {
   const [state, setState] = React.useState(false);
 
-  const [name, setName] = React.useState();
+  const [contactData, setContactData] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+    dateOfBirth: "",
+  });
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -46,10 +55,13 @@ export default function BottomDrawer({ createContact }) {
         </Grid>
         <Grid item xs={4}>
           <Box sx={{ float: "right" }}>
-            <Button variant="text" onClick={(e) => {
-              createContact(name)
-              toggleDrawer(false)(e)
-            }}>
+            <Button
+              variant="text"
+              onClick={(e) => {
+                createContact(contactData);
+                toggleDrawer(false)(e);
+              }}
+            >
               Add
             </Button>
           </Box>
@@ -63,9 +75,43 @@ export default function BottomDrawer({ createContact }) {
             label="Name"
             variant="outlined"
             sx={{ width: "100%", m: 2 }}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={contactData.name}
+            onChange={(e) =>
+              setContactData({ ...contactData, name: e.target.value })
+            }
           />
+        </ListItem>
+        <ListItem disablePadding>
+          <TextField
+            id="outlined-basic"
+            label="Phone Number"
+            variant="outlined"
+            sx={{ width: "100%", m: 2 }}
+            value={contactData.phone}
+            onChange={(e) =>
+              setContactData({ ...contactData, phone: e.target.value })
+            }
+          />
+        </ListItem>
+        <ListItem disablePadding>
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            sx={{ width: "100%", m: 2 }}
+            value={contactData.email}
+            onChange={(e) =>
+              setContactData({ ...contactData, email: e.target.value })
+            }
+          />
+        </ListItem>
+        <ListItem disablePadding>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Birthdate"
+              sx={{ width: "100%", m: 2 }}
+            />
+          </LocalizationProvider>
         </ListItem>
       </List>
     </Box>

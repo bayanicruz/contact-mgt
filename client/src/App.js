@@ -26,7 +26,7 @@ function App() {
       setContacts(data);
       setSearchList(data);
     } catch (error) {
-      console.error('Error fetching contacts:', error);
+      console.error("Error fetching contacts:", error);
     }
   };
 
@@ -37,8 +37,24 @@ function App() {
     setSearchList(contactList);
   };
 
-  const handleAddContact = (value) => {
-    setSearchList([...contactList, { name: value }]);
+  const handleAddContact = async (contactData) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/contacts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(contactData),
+        },
+      );
+      const newContact = await response.json();
+      setContacts([...contacts, newContact]);
+      setSearchList([...contacts, newContact]);
+    } catch (error) {
+      console.error("Error adding contact:", error);
+    }
   };
 
   return (
@@ -62,7 +78,7 @@ function App() {
             onChange={(e) => handleSearch(e.target.value)}
           />
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-          {contactList.map((contact) => (
+            {contactList.map((contact) => (
               <ListItem key={contact._id} contact={contact} />
             ))}
           </List>
