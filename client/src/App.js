@@ -21,7 +21,7 @@ function App() {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/contacts');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/contacts`);
       const data = await response.json();
       setContacts(data);
       setSearchList(data);
