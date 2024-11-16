@@ -32,13 +32,13 @@ function App() {
 
   const handleSearch = (value) => {
     let contactList = contacts.filter((e) =>
-      e.Name.toUpperCase().includes(value.toUpperCase()),
+      e.name.toUpperCase().includes(value.toUpperCase()),
     );
     setSearchList(contactList);
   };
 
   const handleAddContact = (value) => {
-    setSearchList([...contactList, { Name: value }]);
+    setSearchList([...contactList, { name: value }]);
   };
 
   return (
