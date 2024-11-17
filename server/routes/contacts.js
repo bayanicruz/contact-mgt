@@ -40,4 +40,12 @@ router.put("/:id", async (req, res) => {
   res.json(contact); // sends back to client
 });
 
+// Delete contact
+router.delete("/:id", async (req, res) => {
+  const contact = await Contact.findByIdAndDelete(req.params.id);
+  if (!contact) {
+    return res.status(404).json({ message: "Contact not found" });
+  }
+});
+
 module.exports = router;
