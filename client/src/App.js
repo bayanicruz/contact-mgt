@@ -91,6 +91,30 @@ function App() {
     }
   };
 
+  const handleDelete = async (contactId) => {
+    try {
+      // Make a DELETE request to the server
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/contacts/${contactId}`, {
+        method: "DELETE",
+      });
+  
+      // Check if the response is OK (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      // Optionally, you can log the response or handle it as needed
+      const result = await response.json();
+      console.log(result.message); // Log success message
+  
+      //TODO: Update local state to remove the deleted contact
+     } catch (error) {
+      console.error("Error deleting contact:", error);
+      // Optionally show an error message to the user
+      alert("Failed to delete contact. Please try again.");
+    }
+  }
+
   return (
     <Container>
       <Paper square={false} variant="outlined" sx={{ p: 3, mt: 3 }}>
@@ -115,9 +139,8 @@ function App() {
             {contactList.map((contact) => (
               <>
                 <IconButton aria-label="delete" sx={{ float: "right" }}>
-                  <DeleteOutlineIcon />
+                  <DeleteOutlineIcon onClick={() => handleDelete(contact._id)}/>
                 </IconButton>
-                {/* <EditIcon /> */}
                 <BottomDrawer
                   contact={contact}
                   updateContact={handleUpdateContact}
