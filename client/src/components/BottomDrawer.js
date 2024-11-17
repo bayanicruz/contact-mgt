@@ -8,13 +8,24 @@ import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import Grid from "@mui/material/Grid";
+import Grid from '@mui/material/Grid2';
+
 import TextField from "@mui/material/TextField";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from 'dayjs';
 
 export default function BottomDrawer({ createContact }) {
   const [state, setState] = React.useState(false);
 
-  const [name, setName] = React.useState();
+  const [contactData, setContactData] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+    dateOfBirth: "",
+  });
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -29,8 +40,9 @@ export default function BottomDrawer({ createContact }) {
 
   const list = () => (
     <Box sx={{ width: "auto", height: 850 }} role="presentation">
+      
       <Grid container>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             variant="text"
             onClick={toggleDrawer(false)}
@@ -39,22 +51,28 @@ export default function BottomDrawer({ createContact }) {
             Cancel
           </Button>
         </Grid>
-        <Grid item xs={4}>
+
+        <Grid size={4}>
           <Box sx={{ textAlign: "center" }}>
             <h3>New Contact</h3>
           </Box>
         </Grid>
-        <Grid item xs={4}>
+
+        <Grid size={4}>
           <Box sx={{ float: "right" }}>
-            <Button variant="text" onClick={(e) => {
-              createContact(name)
-              toggleDrawer(false)(e)
-            }}>
+            <Button
+              variant="text"
+              onClick={(e) => {
+                createContact(contactData);
+                toggleDrawer(false)(e);
+              }}
+            >
               Add
             </Button>
           </Box>
         </Grid>
       </Grid>
+
       <Divider />
       <List>
         <ListItem disablePadding>
@@ -63,9 +81,47 @@ export default function BottomDrawer({ createContact }) {
             label="Name"
             variant="outlined"
             sx={{ width: "100%", m: 2 }}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={contactData.name}
+            onChange={(e) =>
+              setContactData({ ...contactData, name: e.target.value })
+            }
           />
+        </ListItem>
+        <ListItem disablePadding>
+          <TextField
+            id="outlined-basic"
+            label="Phone Number"
+            variant="outlined"
+            sx={{ width: "100%", m: 2 }}
+            value={contactData.phone}
+            onChange={(e) =>
+              setContactData({ ...contactData, phone: e.target.value })
+            }
+          />
+        </ListItem>
+        <ListItem disablePadding>
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            sx={{ width: "100%", m: 2 }}
+            value={contactData.email}
+            onChange={(e) =>
+              setContactData({ ...contactData, email: e.target.value })
+            }
+          />
+        </ListItem>
+        <ListItem disablePadding>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Birthdate"
+              sx={{ width: "100%", m: 2 }}
+              value={contactData.dateOfBirth ? dayjs(contactData.dateOfBirth) : null} // Ensure valid date format
+              onChange={(newValue) => {
+                setContactData({ ...contactData, dateOfBirth: newValue ? newValue.format('YYYY-MM-DD') : "" }); // Update state on change
+              }}
+            />
+          </LocalizationProvider>
         </ListItem>
       </List>
     </Box>
