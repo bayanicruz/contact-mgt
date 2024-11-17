@@ -11,6 +11,10 @@ import List from "@mui/material/List";
 import ListItem from "./components/ListItem";
 import BottomDrawer from "./components/BottomDrawer";
 
+import IconButton from "@mui/material/IconButton";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
+
 function App() {
   const [contacts, setContacts] = React.useState([]);
   const [contactList, setSearchList] = React.useState(contacts);
@@ -79,7 +83,15 @@ function App() {
           />
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {contactList.map((contact) => (
-              <ListItem key={contact._id} contact={contact} />
+              <>
+                <IconButton aria-label="delete" sx={{ float: "right" }}>
+                  <DeleteOutlineIcon />
+                </IconButton>
+                <IconButton aria-label="edit" sx={{ float: "right" }}>
+                  <EditIcon />
+                </IconButton>
+                <ListItem key={contact._id} contact={contact} />
+              </>
             ))}
           </List>
         </Box>
