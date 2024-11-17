@@ -8,6 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Grid from '@mui/material/Grid2';
 
 import TextField from "@mui/material/TextField";
@@ -17,7 +18,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from 'dayjs';
 
-export default function BottomDrawer({ createContact }) {
+export default function BottomDrawer({ createContact, contact, updateContact }) {
   const [state, setState] = React.useState(false);
 
   const [contactData, setContactData] = React.useState({
@@ -26,6 +27,13 @@ export default function BottomDrawer({ createContact }) {
     phone: "",
     dateOfBirth: "",
   });
+
+  React.useEffect(() => {
+    if (contact) {
+      setContactData(contact);
+    }
+  }, [contact]); // Dependency array ensures this runs only when editContact changes
+
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -37,6 +45,15 @@ export default function BottomDrawer({ createContact }) {
 
     setState(open);
   };
+
+  const handleSubmit = (e) => {
+    if(contact) {
+      updateContact(contactData);
+    } else {
+      createContact(contactData);
+    }
+
+  }
 
   const list = () => (
     <Box sx={{ width: "auto", height: 850 }} role="presentation">
@@ -63,11 +80,11 @@ export default function BottomDrawer({ createContact }) {
             <Button
               variant="text"
               onClick={(e) => {
-                createContact(contactData);
+                handleSubmit(e)
                 toggleDrawer(false)(e);
               }}
             >
-              Add
+              Submit
             </Button>
           </Box>
         </Grid>
@@ -134,10 +151,9 @@ export default function BottomDrawer({ createContact }) {
         <Box sx={{ float: "right" }}>
           <IconButton
             aria-label="delete"
-            size="large"
             onClick={toggleDrawer(true)}
           >
-            <AddBoxIcon fontSize="inherit" />
+            {contact ? <EditOutlinedIcon /> : <AddBoxIcon />}
           </IconButton>
           <Drawer anchor={"bottom"} open={state} onClose={toggleDrawer(false)}>
             {list()}
