@@ -8,7 +8,8 @@ import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
 
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import Grid from "@mui/material/Grid";
+import Grid from '@mui/material/Grid2';
+
 import TextField from "@mui/material/TextField";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -38,8 +39,9 @@ export default function BottomDrawer({ createContact }) {
 
   const list = () => (
     <Box sx={{ width: "auto", height: 850 }} role="presentation">
+      
       <Grid container>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             variant="text"
             onClick={toggleDrawer(false)}
@@ -48,12 +50,14 @@ export default function BottomDrawer({ createContact }) {
             Cancel
           </Button>
         </Grid>
-        <Grid item xs={4}>
+
+        <Grid size={4}>
           <Box sx={{ textAlign: "center" }}>
             <h3>New Contact</h3>
           </Box>
         </Grid>
-        <Grid item xs={4}>
+
+        <Grid size={4}>
           <Box sx={{ float: "right" }}>
             <Button
               variant="text"
@@ -67,6 +71,7 @@ export default function BottomDrawer({ createContact }) {
           </Box>
         </Grid>
       </Grid>
+
       <Divider />
       <List>
         <ListItem disablePadding>
