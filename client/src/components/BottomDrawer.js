@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from 'dayjs';
 
 export default function BottomDrawer({ createContact }) {
   const [state, setState] = React.useState(false);
@@ -115,6 +116,10 @@ export default function BottomDrawer({ createContact }) {
             <DatePicker
               label="Birthdate"
               sx={{ width: "100%", m: 2 }}
+              value={contactData.dateOfBirth ? dayjs(contactData.dateOfBirth) : null} // Ensure valid date format
+              onChange={(newValue) => {
+                setContactData({ ...contactData, dateOfBirth: newValue ? newValue.format('YYYY-MM-DD') : "" }); // Update state on change
+              }}
             />
           </LocalizationProvider>
         </ListItem>
