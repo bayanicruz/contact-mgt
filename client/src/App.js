@@ -11,6 +11,9 @@ import List from "@mui/material/List";
 import ListItem from "./components/ListItem";
 import BottomDrawer from "./components/BottomDrawer";
 
+import IconButton from "@mui/material/IconButton";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 function App() {
   const [contacts, setContacts] = React.useState([]);
   const [contactList, setSearchList] = React.useState(contacts);
@@ -57,6 +60,37 @@ function App() {
     }
   };
 
+  const handleUpdateContact = async (updatedContact) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/contacts/${updatedContact._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedContact),
+        },
+      );
+
+      const updatedData = await response.json();
+
+      // Update local state directly without fetching all contacts again
+      setContacts(
+        contacts.map((contact) =>
+          contact._id === updatedData._id ? updatedData : contact,
+        ),
+      );
+      setSearchList(
+        contactList.map((contact) =>
+          contact._id === updatedData._id ? updatedData : contact,
+        ),
+      );
+    } catch (error) {
+      console.error("Error updating contact:", error);
+    }
+  };
+
   return (
     <Container>
       <Paper square={false} variant="outlined" sx={{ p: 3, mt: 3 }}>
@@ -79,7 +113,17 @@ function App() {
           />
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {contactList.map((contact) => (
-              <ListItem key={contact._id} contact={contact} />
+              <>
+                <IconButton aria-label="delete" sx={{ float: "right" }}>
+                  <DeleteOutlineIcon />
+                </IconButton>
+                {/* <EditIcon /> */}
+                <BottomDrawer
+                  contact={contact}
+                  updateContact={handleUpdateContact}
+                />
+                <ListItem key={contact._id} contact={contact} />
+              </>
             ))}
           </List>
         </Box>
